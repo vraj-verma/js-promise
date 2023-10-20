@@ -1,19 +1,19 @@
 const p1 = new Promise((resolve, reject) => {
 
      setTimeout(() => {
-          if (true) {
+          if (false) {
                resolve('Resolved p1');
           } else {
                reject('Rejected p1')
           }
-     }, 3000);
+     }, 4000);
 
 });
 
 
 const p2 = new Promise((resolve, reject) => {
      setTimeout(() => {
-          if (true) {
+          if (false) {
                resolve('Resolved p2');
           } else {
                reject('Rejected p2')
@@ -24,26 +24,23 @@ const p2 = new Promise((resolve, reject) => {
 const p3 = new Promise((resolve, reject) => {
 
      setTimeout(() => {
-          if (true) {
+          if (false) {
                resolve('Resolved p3');
           } else {
                reject('Rejected p3')
           }
-     }, 1000);
+     }, 3000);
 });
 
-Promise.allSettled([p1, p2, p3])
-     .then(d => {
-          d.forEach(x => console.log(x));
-     })
+Promise.any([p2, p1, p3])
+     .then(d => console.log(d))
      .catch(err => console.log(err));
 
-// OUTPUT = [
-// { status: 'fulfilled', value: 'Resolved p1' },
-// { status: 'fulfilled', value: 'Resolved p2' },
-// { status: 'fulfilled', value: 'Resolved p3' }
-// ]
+// OUTPUT = [AggregateError: All promises were rejected] {
+//   [errors]: [ 'Rejected p2', 'Rejected p1', 'Rejected p3' ]
+// }
 
-// Promise.allSettled does not throw an errow if any promise gets REJECTED like promise.all
-// it do wait for other promises for their result(RESOLVED or REJECTED) and the return an array
-// with RESOLVED AND REJECTED status & value
+// Promise.any return a string value of one of the promise which 
+// RESOLVED first and won't wait for other promises, as the name suggest 
+// ANY, promise returned as soon as it RESOLVED
+// RETURNS AggregateError(MEANING MESSAGE) if all the promises gets REJECTED

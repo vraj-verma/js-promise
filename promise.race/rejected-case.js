@@ -6,14 +6,14 @@ const p1 = new Promise((resolve, reject) => {
           } else {
                reject('Rejected p1')
           }
-     }, 3000);
+     }, 4000);
 
 });
 
 
 const p2 = new Promise((resolve, reject) => {
      setTimeout(() => {
-          if (true) {
+          if (false) {
                resolve('Resolved p2');
           } else {
                reject('Rejected p2')
@@ -29,21 +29,16 @@ const p3 = new Promise((resolve, reject) => {
           } else {
                reject('Rejected p3')
           }
-     }, 1000);
+     }, 3000);
 });
 
-Promise.allSettled([p1, p2, p3])
-     .then(d => {
-          d.forEach(x => console.log(x));
-     })
+Promise.race([p2, p1, p3])
+     .then(d => console.log(d))
      .catch(err => console.log(err));
 
-// OUTPUT = [
-// { status: 'fulfilled', value: 'Resolved p1' },
-// { status: 'fulfilled', value: 'Resolved p2' },
-// { status: 'fulfilled', value: 'Resolved p3' }
-// ]
+// OUTPUT = Rejected p2
 
-// Promise.allSettled does not throw an errow if any promise gets REJECTED like promise.all
-// it do wait for other promises for their result(RESOLVED or REJECTED) and the return an array
-// with RESOLVED AND REJECTED status & value
+// Promise.race is just just a race, which ever promise takes lesser time to complete
+// it will pick that promise and return the value in STRING, irrespective of result
+// it does not take care about whether the promise is RESOLVED OR REJECTED it just pick
+// based on lesser time, which ever promise RESOLVED OR REJECT first it will return.

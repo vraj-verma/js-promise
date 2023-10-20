@@ -38,6 +38,12 @@ Promise.allSettled([p2, p1, p3])
      })
      .catch(err => console.log(err));
 
+// OUTPUT = [
+// { status: 'fulfilled', value: 'Resolved p2' },
+// { status: 'fulfilled', value: 'Resolved p1' }
+// { status: 'rejected', reason: 'Rejected p3' }
+// ]
+
 // Promise.allSettled does not throw an errow if any promise gets REJECTED like promise.all
-// it do wait for other promises for their result(RESOLVED or REJECTED) and the return an array
+// it do wait for other promises for their result(RESOLVED or REJECTED) and then return an array
 // with RESOLVED AND REJECTED status & value
