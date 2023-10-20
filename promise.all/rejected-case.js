@@ -36,6 +36,8 @@ Promise.all([p1, p2, p3])
      )
      .catch(e => console.log(e));
 
+// OUTPUT = 'Rejected p2'
+
 // Promise.all returns data in array if all the promises gets RESOLVED,
 // throw an error if any of them gets REJECTED won;t look for other promises results.
 // ALL OR NOTHING.
